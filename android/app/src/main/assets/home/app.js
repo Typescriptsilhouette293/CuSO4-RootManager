@@ -163,31 +163,37 @@ async function loadRootState() {
   const result = await invoke("getRootState");
   if (result.ok) {
     statusTextEl.textContent = `${result.manager || "未知"} ${result.magiskVersion || result.managerVersion || ""}`;
-    var lines;
-    if (result.manager === "Magisk") {
-      var kernelVer = result.kernelVersion || "未知";
-      var magiskVer = result.managerVersion || result.magiskVersion || "";
-      lines = [
-        `当前: ${kernelVer}（${magiskVer}）`,
-        `Zgisk: ${result.zygisk ? "是" : "否"}`,
-        `Ramdisk: ${result.ramdisk ? "是" : "否"}`
-      ];
-    } else {
-      lines = [
-        `管理器: ${result.manager || "未知"}  ${result.magiskVersion || result.managerVersion || ""}`,
-        `Hook 类型: ${result.hookType || "未知"}`,
-        `SELinux: ${result.selinuxMode || "未知"}`,
-        `内核: ${result.kernelVersion || "未知"}`,
-        `指纹: ${result.systemFingerprint || "未知"}`
-      ];
-    }
-    runLogEl.innerHTML = lines.map(function(l) { return '<div class="ksu-info-item">' + esc(l) + '</div>'; }).join("");
+    renderSystemInfo(result);
     if (result.manager === "Magisk") uninstallLabel = "卸载 Magisk";
     else uninstallLabel = "卸载 ROOT 管理器";
   } else {
     statusTextEl.textContent = "未授权";
     runLogEl.innerHTML = `<div class="ksu-info-item">ROOT 状态: 未授权</div>`;
   }
+}
+
+function renderSystemInfo(state) {
+  if (!runLogEl) return;
+  var items;
+  if (state.manager === "Magisk") {
+    var kernelVer = state.kernelVersion || "未知";
+    var magiskVer = state.managerVersion || state.magiskVersion || "";
+    items = [
+      { label: "当前", value: kernelVer + (magiskVer ? "（" + magiskVer + "）" : "") },
+      { label: "Zgisk", value: state.zygisk ? "是" : "否" },
+      { label: "Ramdisk", value: state.ramdisk ? "是" : "否" }
+    ];
+  } else {
+    items = [
+      { label: "内核版本", value: state.kernelVersion || "未知" },
+      { label: "钩子类型", value: state.hookType || "未知" },
+      { label: "SELinux 模式", value: state.selinuxMode || "未知" },
+      { label: "系统指纹", value: state.systemFingerprint || "未知" }
+    ];
+  }
+  runLogEl.innerHTML = items
+    .map(function(item) { return '<div class="sys-item"><div class="sys-label">' + esc(item.label) + '</div><div class="sys-value">' + esc(item.value) + '</div></div>'; })
+    .join("");
 }
 
 async function loadModules(forceRefresh) {
@@ -212,38 +218,50 @@ function renderModules() {
   }
   modulesContent.innerHTML = modules.map(m => `
     <div class="module-card anim-item">
-      <div class="module-info">
-        <div class="module-name">${esc(m.name || m.id)}</div>
-        <div class="module-meta">${esc(m.version || "")} · ${esc(m.author || "")}</div>
-        ${m.description ? `<div class="module-desc">${esc(m.description)}</div>` : ""}
-      </div>
-      <div class="module-actions">
-        <button class="module-toggle-btn" data-id="${esc(m.id)}" data-enabled="${m.enabled}">${m.enabled ? "禁用" : "启用"}</button>
-        <button class="module-delete-btn" data-id="${esc(m.id)}">删除</button>
+      <div class="module-icon">${m.icon || "📦"}</div>
+      <div class="module-content">
+        <div class="module-header">
+          <div>
+            <div class="module-name">${esc(m.name || m.id)}</div>
+            <div class="module-meta">v${esc(m.version || "未知")}，作者 ${esc(m.author || "未知")}</div>
+          </div>
+          <label class="module-switch">
+            <input type="checkbox" data-id="${esc(m.id)}" ${m.enabled ? "checked" : ""}>
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+        <div class="module-description">${esc(m.description || "")}</div>
+        <div class="module-footer">
+          <div></div>
+          <div class="module-remove" data-id="${esc(m.id)}">
+            <span>🗑️</span>
+            <span>移除</span>
+          </div>
+        </div>
       </div>
     </div>
   `).join("");
 
-  modulesContent.querySelectorAll(".module-toggle-btn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.id;
-      const enabled = btn.dataset.enabled === "true";
-      showFlashScreen(enabled ? "禁用模块..." : "启用模块...");
-      addFlashLog(`- ${enabled ? "禁用" : "启用"}模块: ${id}`);
-      const result = await invoke("toggleModule", id, String(!enabled));
+  document.querySelectorAll(".module-switch input").forEach((input) => {
+    input.addEventListener("change", async () => {
+      const id = input.dataset.id;
+      const enabled = input.checked;
+      showFlashScreen(enabled ? "启用模块..." : "禁用模块...");
+      addFlashLog(`- ${enabled ? "启用" : "禁用"}模块: ${id}`);
+      const result = await invoke("toggleModule", id, String(enabled));
       if (result.ok) {
         addFlashLog(`+ ${result.message}`);
         finishFlash(true);
-        modulesLoaded = false;
-        loadModules(true);
       } else {
         addFlashLog(`! ${result.message}`);
         finishFlash(false);
+        // Revert checkbox state if failed
+        input.checked = !enabled;
       }
     });
   });
 
-  modulesContent.querySelectorAll(".module-delete-btn").forEach(btn => {
+  document.querySelectorAll(".module-remove").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
       showConfirm("删除模块", `确定要删除模块 ${id} 吗？`, async () => {
